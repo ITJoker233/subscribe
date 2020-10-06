@@ -35,6 +35,7 @@ def getSS(url,KEY1,KEY2):
     link = base64.b64decode(data['link'])
     desLink = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
     return desLink.decrypt(link).decode()
+
 if __name__ == "__main__":
     if len(sys.argv) > 0:
         link = getSS(sys.argv[1],sys.argv[2],sys.argv[3])
@@ -45,5 +46,6 @@ if __name__ == "__main__":
             with open('latest.txt','w+',encoding='UTF-8') as f:
                 result += f'\n{link}'
                 f.write(base64.b64encode(result.encode()).decode())
-        with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime())}.txt','w') as f:
+        with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()+24*60*60)))}.txt','w') as f:
             f.write(base64.b64encode(link.encode()).decode())
+        os.remove(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time())))}.txt')
