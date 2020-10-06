@@ -41,12 +41,14 @@ if __name__ == "__main__":
     if len(sys.argv) > 0:
         link = getSS(sys.argv[1],sys.argv[2],sys.argv[3])
         result = ''
-        with open('latest.txt','r+',encoding='UTF-8') as f:
+        with open('data.txt','r+',encoding='UTF-8') as f:
             result += base64.b64decode(f.read()).decode()
         if link not in result:
-            with open('latest.txt','w+',encoding='UTF-8') as f:
+            with open('data.txt','w+',encoding='UTF-8') as f:
                 result += f'\n{link}'
                 f.write(base64.b64encode(result.encode()).decode())
+        with open('latest.txt','w') as f:
+            f.write(base64.b64encode(link.encode()).decode())
         with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime(time.time()))}.txt','w') as f:
             f.write(base64.b64encode(link.encode()).decode())
         if(os.path.exists('subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()-24*60*60)))}.txt')):
