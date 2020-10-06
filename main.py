@@ -47,6 +47,7 @@ if __name__ == "__main__":
             with open('latest.txt','w+',encoding='UTF-8') as f:
                 result += f'\n{link}'
                 f.write(base64.b64encode(result.encode()).decode())
-        with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()+24*60*60)))}.txt','w') as f:
+        with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime(time.time()))}.txt','w') as f:
             f.write(base64.b64encode(link.encode()).decode())
-        os.remove(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time())))}.txt')
+        if(os.path.exists('subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()-24*60*60)))}.txt')):
+            os.remove(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()-24*60*60)))}.txt')
