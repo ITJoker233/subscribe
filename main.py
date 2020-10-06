@@ -51,5 +51,5 @@ if __name__ == "__main__":
             f.write(base64.b64encode(link.encode()).decode())
         with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime(time.time()))}.txt','w') as f:
             f.write(base64.b64encode(link.encode()).decode())
-        if(os.path.exists('subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()-24*60*60)))}.txt')):
+        if(os.path.exists(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()-24*60*60)))}.txt')):
             os.remove(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()-24*60*60)))}.txt')
