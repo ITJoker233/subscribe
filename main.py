@@ -1,5 +1,6 @@
 #coding=utf-8
 from pyDes import des, PAD_PKCS5, ECB
+import os
 import sys
 import base64
 import requests
