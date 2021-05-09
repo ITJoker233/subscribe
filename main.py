@@ -30,11 +30,11 @@ def getSS(url,KEY1,KEY2):
     headers['Content-Type'] = 'application/x-www-form-urlencoded'
     response = requests.post(url,data=postdata,headers=headers).text
     raw_data = base64.b64decode(response)
-    des_obj = des(KEY1, ECB, KEY2, padmode=PAD_PKCS5)
+    des_obj = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
     data = json.loads(des_obj.decrypt(raw_data).decode())
     #print('ret:{0}\nlocation:{1}\nping:{2}'.format(data['ret'],data['location'],data['ping']))
     link = base64.b64decode(data['link'])
-    desLink = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
+    desLink = des(KEY1, ECB, KEY2, padmode=PAD_PKCS5)
     return desLink.decrypt(link).decode()
 
 if __name__ == "__main__":
