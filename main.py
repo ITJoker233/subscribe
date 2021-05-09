@@ -14,7 +14,7 @@ def getRandomIMEI():
     return ''.join(random.sample(list(dictKey),16))
 
 def getSS(url,KEY1,KEY2):
-    v='0.9'
+    v='0.95'
     imei = 'di:{}'.format(getRandomIMEI())
     id_ = 6 #小于6的是vip节点
     user = random.randint(2800000,2899999)
