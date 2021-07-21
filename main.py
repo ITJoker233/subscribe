@@ -7,6 +7,7 @@ import requests
 import time
 import json
 import random
+import net
 
 dictKey = '0123456789abcdefghijklmnopqrstuvwxyz'
 
@@ -17,7 +18,7 @@ def getSS(url,KEY1,KEY2):
     v='0.95'
     imei = 'di:{}'.format(getRandomIMEI())
     id_ = 6 #小于6的是vip节点
-    user = random.randint(2800000,2899999)
+    #user = random.randint(2800000,2899999)
     cid = random.randint(0,20) #节点
     headers = {}
     postdata = {}
@@ -40,16 +41,10 @@ def getSS(url,KEY1,KEY2):
 if __name__ == "__main__":
     if len(sys.argv) > 0:
         link = getSS(sys.argv[1],sys.argv[2],sys.argv[3])
-        result = ''
-        with open('data.txt','r+',encoding='UTF-8') as f:
-            result += base64.b64decode(f.read()).decode()
-        if link not in result:
-            with open('data.txt','w+',encoding='UTF-8') as f:
-                result += f'\n{link}'
-                f.write(base64.b64encode(result.encode()).decode())
-        with open('latest.txt','w') as f:
-            f.write(base64.b64encode(link.encode()).decode())
+        if net.check(link):
+            with open('latest.txt','w') as f:
+                f.write(base64.b64encode(link.encode()).decode())
+        for file in [x for x in os.listdir() if 'subscribe' in x]:
+            os.remove(file)
         with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime(time.time()))}.txt','w') as f:
             f.write(base64.b64encode(link.encode()).decode())
-        if(os.path.exists(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()-24*60*60)))}.txt')):
-            os.remove(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime((time.time()-24*60*60)))}.txt')
