@@ -24,7 +24,7 @@ def check(new_ss=''):
                 result.append(new_ss)
                 result = '\n'.join(sorted(list(set(result))))
                 with open('data.txt','w+') as f:
-                    f.write(result)
+                    f.write(base64.b64encode(result.encode()))
                 return True
     return False
 if __name__ == '__main__':
