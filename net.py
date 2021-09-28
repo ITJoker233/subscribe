@@ -1,7 +1,6 @@
 # coding=utf8
 import base64
 import os
-
 def check(new_ss=''):
     if new_ss!='':
         new_t_ss = base64.b64decode(new_ss[5::]).decode().split(':')
