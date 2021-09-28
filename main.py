@@ -40,11 +40,12 @@ def getSS(url,KEY1,KEY2):
 
 if __name__ == "__main__":
     if len(sys.argv) > 0:
-        link = getSS(sys.argv[1],sys.argv[2],sys.argv[3])
-        if net.check(link):
-            with open('latest.txt','w') as f:
+        for i in range(5):
+            link = getSS(sys.argv[1],sys.argv[2],sys.argv[3])
+            if net.check(link):
+                with open('latest.txt','w') as f:
+                    f.write(base64.b64encode(link.encode()).decode())
+            for file in [x for x in os.listdir() if 'subscribe' in x]:
+                os.remove(file)
+            with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime(time.time()))}.txt','w') as f:
                 f.write(base64.b64encode(link.encode()).decode())
-        for file in [x for x in os.listdir() if 'subscribe' in x]:
-            os.remove(file)
-        with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime(time.time()))}.txt','w') as f:
-            f.write(base64.b64encode(link.encode()).decode())
