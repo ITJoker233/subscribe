@@ -51,23 +51,26 @@ def getSS(url,KEY1,KEY2,cid):
     headers['Content-Type'] = 'application/x-www-form-urlencoded'
     headers['x-forwarded-for'] = ( str(random.randint(0, 256))+'.'+str(random.randint(0, 256))+'.'+str(random.randint(0, 256))+'.'+str(random.randint(0, 256)) )
     response = http.post(url,data=payload,headers=headers).text
-    raw_data = base64.b64decode(response)
-    des_obj = des(KEY1, ECB, KEY1, padmode=PAD_PKCS5)
-    data = json.loads(des_obj.decrypt(raw_data).decode())
-    link = base64.b64decode(data['link'])
-    name = data['location']
-    desLink = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
     try:
+        raw_data = base64.b64decode(response)
+        des_obj = des(KEY1, ECB, KEY1, padmode=PAD_PKCS5)
+        data = json.loads(des_obj.decrypt(raw_data).decode())
+        name = data['location']
+        link = base64.b64decode(data['link'])
+        desLink = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
         return name,desLink.decrypt(link).decode()
     except:
-        return name,None
+        return '',None
 
 if __name__ == "__main__":
     if len(sys.argv) > 0:
         result = {}
+        url = sys.argv[1]
+        key1 = sys.argv[2]
+        key2 = sys.argv[3]
         for i in range(9):
             for j in range(10):
-                name,link = getSS(sys.argv[1],sys.argv[2],sys.argv[3],2)
+                name,link = getSS(url,key1,key2,2)
                 print(name,link)
                 if link is not None and link != '':
                     result[name] = link
