@@ -71,7 +71,6 @@ if __name__ == "__main__":
         for i in range(9):
             for j in range(10):
                 name,link = getSS(url,key1,key2,2)
-                print(name,link)
                 if link is not None and link != '':
                     result[name] = link
         print(len(result))
