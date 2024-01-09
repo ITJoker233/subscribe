@@ -70,6 +70,8 @@ if __name__ == "__main__":
                 name,link = getSS(sys.argv[1],sys.argv[2],sys.argv[3],2)
                 if link is not None:
                     result[name] = link
+        print(len(result))
+        print(result)
         for key in result:
             link = result[key]
             if net.check(link):
