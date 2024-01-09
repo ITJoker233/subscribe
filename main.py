@@ -18,6 +18,7 @@ headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
     'agentX': 'super-ok-http'
 }
+error_msg = ''
 def getRandomIMEI():
     return 'di:'+''.join(random.sample(list(dictKey),16))
 
@@ -65,6 +66,7 @@ def getSS(host,KEY1,KEY2,cid):
             return '',None
     except Exception as e:
         print(e)
+        error_msg+=e
         return '',None
 
 if __name__ == "__main__":
@@ -91,3 +93,6 @@ if __name__ == "__main__":
                     os.remove(file)
                 with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime(time.time()))}.txt','w') as f:
                     f.write(base64.b64encode(link.encode()).decode())
+        if error_msg != '':
+            with open('error.md','w') as f:
+                f.write(error_msg)
