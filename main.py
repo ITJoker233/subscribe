@@ -23,7 +23,7 @@ def getRandomIMEI():
 
 phone_imei = getRandomIMEI()
 
-def getInfo(KEY1):
+def getInfo(host,KEY1):
     url = f'{host}/api/user/getInfo'
     payload = {
         'a':random.randint(6,14),
@@ -39,7 +39,8 @@ def getInfo(KEY1):
     data = json.loads(des_obj.decrypt(raw_data).decode())
     print(data)
 
-def getSS(url,KEY1,KEY2,cid):
+def getSS(host,KEY1,KEY2,cid):
+    url = f'{host}/api/user/getserver'
     payload = {
         'v':0.97,
         'imei':phone_imei,
@@ -55,10 +56,13 @@ def getSS(url,KEY1,KEY2,cid):
         raw_data = base64.b64decode(response)
         des_obj = des(KEY1, ECB, KEY1, padmode=PAD_PKCS5)
         data = json.loads(des_obj.decrypt(raw_data).decode())
-        name = data['location']
-        link = base64.b64decode(data['link'])
-        desLink = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
-        return name,desLink.decrypt(link).decode()
+        if data['ret'] == 2:
+            name = data['location']
+            link = base64.b64decode(data['link'])
+            desLink = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
+            return name,desLink.decrypt(link).decode()
+        else:
+            return '',None
     except Exception as e:
         print(e)
         return '',None
@@ -72,8 +76,10 @@ if __name__ == "__main__":
         for i in range(9):
             for j in range(10):
                 name,link = getSS(url,key1,key2,2)
+                print(f'{i}{j} Name:{name} Link:{link}')
                 if link is not None and link != '':
                     result[name] = link
+                time.sleep(0.5)
         print(len(result))
         print(result)
         for key in result:
