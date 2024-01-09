@@ -82,17 +82,18 @@ if __name__ == "__main__":
                 if link is not None and link != '':
                     result[name] = link
                 time.sleep(0.5)
-        print(len(result))
         print(result)
-        for key in result:
-            link = result[key]
-            #if net.check(link):
+        links = ''
+        if len(result):
+            for key in result:
+                links += result[key]+'\n'
+                #if net.check(link):
             with open('latest.txt','w') as f:
-                f.write(base64.b64encode(link.encode()).decode())
+                f.write(base64.b64encode(links.encode()).decode())
             for file in [x for x in os.listdir() if 'subscribe' in x]:
                 os.remove(file)
             with open(f'subscribe_{time.strftime("%Y_%m_%d", time.localtime(time.time()))}.txt','w') as f:
-                f.write(base64.b64encode(link.encode()).decode())
+                f.write(base64.b64encode(links.encode()).decode())
         if error_msg != '':
             with open('error.md','w') as f:
                 f.write(error_msg)
