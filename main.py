@@ -59,7 +59,8 @@ def getSS(url,KEY1,KEY2,cid):
         link = base64.b64decode(data['link'])
         desLink = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
         return name,desLink.decrypt(link).decode()
-    except:
+    except Exception as e:
+        print(e)
         return '',None
 
 if __name__ == "__main__":
