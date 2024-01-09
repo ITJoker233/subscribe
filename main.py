@@ -52,11 +52,11 @@ def getSS(url,KEY1,KEY2,cid):
     headers['x-forwarded-for'] = ( str(random.randint(0, 256))+'.'+str(random.randint(0, 256))+'.'+str(random.randint(0, 256))+'.'+str(random.randint(0, 256)) )
     response = http.post(url,data=payload,headers=headers).text
     raw_data = base64.b64decode(response)
-    des_obj = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
+    des_obj = des(KEY1, ECB, KEY1, padmode=PAD_PKCS5)
     data = json.loads(des_obj.decrypt(raw_data).decode())
     link = base64.b64decode(data['link'])
     name = data['location']
-    desLink = des(KEY1, ECB, KEY1, padmode=PAD_PKCS5)
+    desLink = des(KEY1, ECB, KEY2, padmode=PAD_PKCS5)
     try:
         return name,desLink.decrypt(link).decode()
     except:
