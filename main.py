@@ -56,7 +56,7 @@ def getSS(url,KEY1,KEY2,cid):
     data = json.loads(des_obj.decrypt(raw_data).decode())
     link = base64.b64decode(data['link'])
     name = data['location']
-    desLink = des(KEY1, ECB, KEY2, padmode=PAD_PKCS5)
+    desLink = des(KEY2, ECB, KEY2, padmode=PAD_PKCS5)
     try:
         return name,desLink.decrypt(link).decode()
     except:
@@ -68,7 +68,8 @@ if __name__ == "__main__":
         for i in range(9):
             for j in range(10):
                 name,link = getSS(sys.argv[1],sys.argv[2],sys.argv[3],2)
-                if link is not None:
+                print(name,link)
+                if link is not None and link != '':
                     result[name] = link
         print(len(result))
         print(result)
